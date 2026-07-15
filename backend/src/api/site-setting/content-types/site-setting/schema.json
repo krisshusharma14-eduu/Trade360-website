@@ -1,0 +1,33 @@
+{
+  "kind": "singleType",
+  "collectionName": "site_settings",
+  "info": {
+    "singularName": "site-setting",
+    "pluralName": "site-settings",
+    "displayName": "SiteSetting"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "whatsaapnumber": {
+      "type": "string"
+    },
+    "phonenumber": {
+      "type": "string"
+    },
+    "email": {
+      "type": "email"
+    },
+    "googleAnalyticsId": {
+      "type": "string"
+    },
+    "metaPixelId": {
+      "type": "string"
+    },
+    "footerText": {
+      "type": "text"
+    }
+  }
+}
