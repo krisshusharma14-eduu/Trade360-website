@@ -1,0 +1,39 @@
+{
+  "kind": "collectionType",
+  "collectionName": "leads",
+  "info": {
+    "singularName": "lead",
+    "pluralName": "leads",
+    "displayName": "Lead"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "fullname": {
+      "type": "string"
+    },
+    "mobile": {
+      "type": "string"
+    },
+    "email": {
+      "type": "email"
+    },
+    "city": {
+      "type": "string"
+    },
+    "interestedService": {
+      "type": "string"
+    },
+    "message": {
+      "type": "text"
+    },
+    "consent": {
+      "type": "boolean"
+    },
+    "sourcepage": {
+      "type": "string"
+    }
+  }
+}
