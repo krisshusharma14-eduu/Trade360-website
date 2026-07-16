@@ -1,0 +1,6 @@
+{
+  "name": "Trade 360",
+  "description": "Trade 360 is a modern, minimalistic marketing and lead-generation platform for trading account visibility and client communication.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
