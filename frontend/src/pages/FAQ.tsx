@@ -44,13 +44,13 @@ export default function FAQ() {
         // fields matching FAQItem. Confirm this against the real response from
         // /api/faqs and adjust the mapping below if her field names differ.
         const rawItems = Array.isArray(json) ? json : json.data;
-        const mapped: FAQItem[] = rawItems.map((item: any) => ({
-          id: String(item.id ?? item.documentId ?? Math.random()),
-          question: item.question ?? item.Text ?? '',
-          answer: item.answer ?? item.Text1 ?? '',
-          category: item.category ?? 'general',
-          order: item.order ?? 0,
-        }));
+         const mapped: FAQItem[] = rawItems.map((item: any) => ({
+    id: String(item.id ?? item.documentId ?? Math.random()),
+    question: item.Question ?? item.question ?? '',
+    answer: item.Answer ?? item.answer ?? '',
+    category: item.category ?? 'general',
+    order: item.order ?? 0,
+  }));
         setFaqs(mapped);
       } catch (err: any) {
         setError('Could not dynamically retrieve latest FAQs, falling back to cached list.');
