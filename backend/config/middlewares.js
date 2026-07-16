@@ -6,7 +6,7 @@ module.exports = [
   {
     name: 'strapi::cors',
     config: {
-      origin: ['http://localhost:3000', 'http://localhost:1337', 'https://asparagus-overtone-makeover.ngrok-free.dev'],
+      origin: ['http://localhost:3000', 'http://localhost:1337', 'https://trade360-website.vercel.app', 'https://trade360-website-of4yq1wod-trioo.vercel.app'],
       headers: '*',
     },
   },
