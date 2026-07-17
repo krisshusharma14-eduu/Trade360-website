@@ -19,6 +19,9 @@
     },
     "Category": {
       "type": "string"
+    },
+    "order": {
+      "type": "integer"
     }
   }
 }
