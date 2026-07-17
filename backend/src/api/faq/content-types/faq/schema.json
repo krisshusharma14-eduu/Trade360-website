@@ -16,6 +16,9 @@
     },
     "Answer": {
       "type": "text"
+    },
+    "Category": {
+      "type": "string"
     }
   }
 }
