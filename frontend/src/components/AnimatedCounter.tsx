@@ -11,8 +11,9 @@ export default function AnimatedCounter({ value, duration = 1200 }: AnimatedCoun
   const [hasStarted, setHasStarted] = useState(false);
 
   // Extract the numeric part and suffix
-  const numValue = parseInt(value.replace(/[^0-9]/g, ''), 10) || 0;
-  const suffix = value.replace(/[0-9]/g, '');
+  const match = value.match(/^[\d.]+/);
+  const numValue = match ? parseFloat(match[0]) : 0;
+  const suffix = match ? value.slice(match[0].length) : value;
 
   useEffect(() => {
     const observer = new IntersectionObserver(
