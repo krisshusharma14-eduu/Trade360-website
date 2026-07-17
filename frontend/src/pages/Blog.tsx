@@ -28,7 +28,7 @@ export default function Blog() {
           throw new Error('Server returned error status');
         }
         const data = await response.json();
-        setBlogs(data);
+        setBlogs(data.data);
       } catch (err: any) {
         setError('Could not retrieve dynamic posts, falling back to cached stories.');
         setBlogs(getFallbackBlogs());
