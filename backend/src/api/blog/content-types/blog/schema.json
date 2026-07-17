@@ -39,10 +39,10 @@
     "readTime": {
       "type": "string"
     },
-    "seoKeywords": {
-      "type": "json"
-    },
     "content": {
+      "type": "text"
+    },
+    "seoKeywords": {
       "type": "text"
     }
   }
