@@ -48,7 +48,7 @@ export default function FAQ() {
     id: String(item.id ?? item.documentId ?? Math.random()),
     question: item.Question ?? item.question ?? '',
     answer: item.Answer ?? item.answer ?? '',
-    category: item.category ?? 'general',
+    category: item.Category ?? item.category ?? 'general',
     order: item.order ?? 0,
   }));
         setFaqs(mapped);
