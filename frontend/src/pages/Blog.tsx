@@ -19,7 +19,11 @@ export default function Blog() {
     const fetchBlogs = async () => {
       try {
         setIsLoading(true);
-        const response = await fetch('/api/blogs');
+        const baseUrl = (import.meta as any).env?.VITE_STRAPI_API_URL || '';
+        const url = baseUrl ? `${baseUrl}/api/blogs` : '/api/blogs';
+        const response = await fetch(url, {
+          headers: { 'ngrok-skip-browser-warning': 'true' },
+        });
         if (!response.ok) {
           throw new Error('Server returned error status');
         }
