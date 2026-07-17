@@ -20,9 +20,6 @@
     "summary": {
       "type": "text"
     },
-    "content": {
-      "type": "richtext"
-    },
     "category": {
       "type": "string"
     },
@@ -44,6 +41,9 @@
     },
     "seoKeywords": {
       "type": "json"
+    },
+    "content": {
+      "type": "text"
     }
   }
 }
