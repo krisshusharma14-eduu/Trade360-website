@@ -19,12 +19,25 @@ export default function Blog() {
     const fetchBlogs = async () => {
       try {
         setIsLoading(true);
-        const response = await fetch('/api/blogs');
+        const baseUrl = (import.meta as any).env?.VITE_STRAPI_API_URL || '';
+        const url = baseUrl ? `${baseUrl}/api/blogs?populate=*` : '/api/blogs?populate=*';
+        const response = await fetch(url, {
+          headers: { 'ngrok-skip-browser-warning': 'true' },
+        });
         if (!response.ok) {
           throw new Error('Server returned error status');
         }
         const data = await response.json();
-        setBlogs(data);
+        const normalized = (data.data || []).map((post: any) => ({
+          ...post,
+          image: post.image?.url
+            ? (post.image.url.startsWith('http') ? post.image.url : `${baseUrl}${post.image.url}`)
+            : post.image,
+          seoKeywords: typeof post.seoKeywords === 'string'
+            ? post.seoKeywords.split(',').map((k: string) => k.trim()).filter(Boolean)
+            : (post.seoKeywords || []),
+        }));
+        setBlogs(normalized);
       } catch (err: any) {
         setError('Could not retrieve dynamic posts, falling back to cached stories.');
         setBlogs(getFallbackBlogs());
