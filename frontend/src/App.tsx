@@ -2,7 +2,7 @@
  * @license
  * SPDX-License-Identifier: Apache-2.0
  */
-
+import IntroAnimation from './components/IntroAnimation';
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
 import Navbar from './components/Navbar';
@@ -62,6 +62,7 @@ export default function App() {
     <ThemeProvider>
       <BrowserRouter>
         <ScrollToTop />
+        <IntroAnimation />
         
         <div className="flex flex-col min-h-screen bg-brand-navy text-slate-300">
           {/* Navigation */}
