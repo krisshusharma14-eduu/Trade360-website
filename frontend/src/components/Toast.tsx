@@ -34,7 +34,7 @@ export default function Toast({ toasts, onDismiss }: ToastProps) {
                 ? 'border-emerald-100 text-emerald-950 shadow-emerald-500/5'
                 : toast.type === 'error'
                 ? 'border-rose-100 text-rose-950 shadow-rose-500/5'
-                : 'border-slate-100 text-slate-950 shadow-slate-500/5'
+                : 'border-gray-100 text-gray-950 shadow-gray-500/5'
             }`}
           >
             <div className="shrink-0 mt-0.5">
@@ -43,12 +43,12 @@ export default function Toast({ toasts, onDismiss }: ToastProps) {
               {toast.type === 'info' && <Info className="w-5 h-5 text-sky-500" />}
             </div>
             <div className="flex-1">
-              <h4 className="font-semibold text-sm leading-tight text-slate-900">{toast.title}</h4>
-              <p className="mt-1 text-xs text-slate-500 leading-relaxed">{toast.message}</p>
+              <h4 className="font-semibold text-sm leading-tight text-gray-900">{toast.title}</h4>
+              <p className="mt-1 text-xs text-gray-500 leading-relaxed">{toast.message}</p>
             </div>
             <button
               onClick={() => onDismiss(toast.id)}
-              className="shrink-0 p-1 rounded-lg hover:bg-slate-50 text-slate-400 hover:text-slate-600 transition-colors h-fit self-start"
+              className="shrink-0 p-1 rounded-lg hover:bg-gray-50 text-gray-400 hover:text-gray-600 transition-colors h-fit self-start"
             >
               <X className="w-4 h-4" />
             </button>
