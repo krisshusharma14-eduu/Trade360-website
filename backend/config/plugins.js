@@ -8,7 +8,6 @@ const allowedMediaTypes = [
   'text/plain',
   'text/csv',
 ];
-
 const deniedExecutableTypes = [
   'application/vnd.microsoft.portable-executable',
   'application/x-msdownload',
@@ -19,8 +18,7 @@ const deniedExecutableTypes = [
   'text/x-shellscript',
   'application/x-mach-binary',
 ];
-
-module.exports = () => ({
+module.exports = ({ env }) => ({
   'users-permissions': {
     config: {
       jwtManagement: 'refresh',
@@ -31,6 +29,16 @@ module.exports = () => ({
   },
   upload: {
     config: {
+      provider: 'cloudinary',
+      providerOptions: {
+        cloud_name: env('CLOUDINARY_NAME'),
+        api_key: env('CLOUDINARY_KEY'),
+        api_secret: env('CLOUDINARY_SECRET'),
+      },
+      actionOptions: {
+        upload: {},
+        delete: {},
+      },
       security: {
         allowedTypes: allowedMediaTypes,
         deniedTypes: deniedExecutableTypes,
