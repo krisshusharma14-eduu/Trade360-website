@@ -83,7 +83,7 @@ export default function Navbar() {
                   className={`relative px-3.5 py-2 rounded-full text-xs font-semibold uppercase tracking-wider transition-colors duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] select-none ${
                     active
                       ? 'text-brand-teal dark:text-brand-teal-light'
-                      : 'text-slate-400 hover:text-slate-900 dark:hover:text-white'
+                      : 'text-slate-400 hover:!text-[var(--color-text-primary)] dark:hover:text-white'
                   }`}
                 >
                   {active && (
@@ -166,7 +166,7 @@ export default function Navbar() {
                   className={`px-4 py-3 rounded-xl text-sm font-semibold uppercase tracking-wider transition-colors duration-300 ${
                     isActive(link.path)
                       ? 'text-brand-teal bg-black/5 dark:bg-white/5'
-                      : 'text-slate-400 hover:text-slate-900 hover:bg-black/5 dark:hover:text-white dark:hover:bg-white/5'
+                      : 'text-slate-400 hover:!text-[var(--color-text-primary)] dark:hover:text-white'
                   }`}
                 >
                   {link.name}
