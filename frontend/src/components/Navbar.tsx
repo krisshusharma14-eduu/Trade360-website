@@ -59,7 +59,10 @@ export default function Navbar() {
         <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
           {/* Logo */}
           <Link to="/" className="flex items-center gap-2.5 group focus:outline-none">
-            <div className="w-8 h-8 bg-gradient-to-tr from-brand-teal to-brand-violet rounded-lg flex items-center justify-center shadow-md shadow-brand-teal/5 transition-[transform,box-shadow] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-105 group-hover:shadow-brand-violet/20">
+            <div
+              id="trade360-navbar-logo"
+              className="w-8 h-8 bg-gradient-to-tr from-brand-teal to-brand-violet rounded-lg flex items-center justify-center shadow-md shadow-brand-teal/5 transition-[transform,box-shadow] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-105 group-hover:shadow-brand-violet/20"
+            >
               <div className="w-3.5 h-3.5 border-2 border-white rounded-sm"></div>
             </div>
             <div className="flex flex-col">
