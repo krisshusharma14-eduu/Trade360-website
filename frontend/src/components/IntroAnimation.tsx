@@ -8,10 +8,10 @@ const LOGO_SIZE = 240;
 // boxes, NOT a naive 4-way quadrant split. This is what makes the pieces
 // snap back into the exact original artwork instead of leaving seams.
 const BLADE_LAYOUT = {
-  blade1: { left: 0.46875, top: 35,       width: 66.71875, height: 59.53125 },
-  blade2: { left: 0.625,   top: 0.625,    width: 63.90625, height: 68.125   },
-  blade3: { left: 35.78125,top: 3.59375,  width: 63.90625, height: 44.375  },
-  blade4: { left: 19.0625, top: 30.46875, width: 79.6875,  height: 68.90625},
+  blade1: { left: 0.9375,  top: 39.0625, width: 66.25,   height: 58.75   },
+  blade2: { left: 0,       top: 0,       width: 57.96875,height: 68.75   },
+  blade3: { left: 35.78125,top: 28.28125,width: 64.21875,height: 71.71875},
+  blade4: { left: 35.15625,top: 1.875,   width: 64.84375,height: 47.8125},
 };
 
 export default function IntroAnimation() {
