@@ -59,12 +59,12 @@ export default function Navbar() {
         <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
           {/* Logo */}
           <Link to="/" className="flex items-center gap-2.5 group focus:outline-none">
-            <div
+            <img
               id="trade360-navbar-logo"
-              className="w-8 h-8 rounded-lg overflow-hidden flex items-center justify-center shadow-md shadow-brand-teal/5 transition-[transform,box-shadow] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-105 group-hover:shadow-brand-violet/20"
-            >
-              <img src="/trade360-logo.svg" alt="Trade360" className="w-full h-full object-cover" />
-            </div>
+              src="/trade360-logo.svg"
+              alt="Trade360"
+              className="h-10 w-10 object-contain transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-105"
+            />
             <div className="flex flex-col">
               <span className="text-base font-display font-bold text-white tracking-tight leading-none transition-colors duration-300 group-hover:text-brand-teal-light">
                 Trade<span className="text-brand-teal transition-colors duration-300 group-hover:text-brand-violet-light">360</span>
