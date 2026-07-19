@@ -63,7 +63,7 @@ export default function Navbar() {
               id="trade360-navbar-logo"
               src="/trade360-logo.svg"
               alt="Trade360"
-              className="h-10 w-10 object-contain transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-105"
+              className="h-12 w-12 object-contain transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-105"
             />
             <div className="flex flex-col">
               <span className="text-base font-display font-bold text-white tracking-tight leading-none transition-colors duration-300 group-hover:text-brand-teal-light">
