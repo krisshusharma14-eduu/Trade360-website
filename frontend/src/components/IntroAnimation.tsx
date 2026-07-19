@@ -185,7 +185,7 @@ export default function IntroAnimation() {
   return (
     <div
       ref={overlayRef}
-      className="fixed inset-0 z-[9999] flex items-center justify-center bg-white"
+      className="fixed inset-0 z-[9999] flex items-center justify-center backdrop-blur-2xl bg-white/10 dark:bg-black/10"
       aria-hidden="true"
     >
       <div
