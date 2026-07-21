@@ -29,7 +29,7 @@ export default function Contact({ onAddToast }: ContactProps) {
     {
       icon: <Phone className="w-5 h-5 text-sky-400" />,
       title: 'Direct Corporate Call',
-      desc: 'Call our accounts desk (Monday - Friday, 9:00 - 18:00 GMT).',
+      desc: 'Call our accounts desk (Monday - Friday, 9:00 - 18:00 IST).',
       actionText: '+917727079410',
       actionUrl: 'tel:+917727079410',
       target: '_self',
