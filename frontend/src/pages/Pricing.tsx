@@ -144,7 +144,7 @@ export default function Pricing() {
         </p>
         <div className="flex justify-center">
           <a
-            href="https://wa.me/1234567890"
+            href="https://wa.me/9825020271"
             target="_blank"
             rel="noopener noreferrer"
             className="px-6 py-3 rounded-full bg-white/5 border border-white/10 hover:bg-white/10 text-white text-xs font-bold uppercase tracking-wider transition-all flex items-center gap-1.5"
