@@ -83,7 +83,7 @@ export default function Navbar() {
                 <Link
                   key={link.path}
                   to={link.path}
-                  className={`relative px-3.5 py-2 rounded-full text-xs font-semibold uppercase tracking-wider transition-colors duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] select-none ${
+                  className={`relative px-3.5 py-2 rounded-full text-xs font-semibold uppercase tracking-wider transition-colors duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] select-none whitespace-nowrap ${
                     active
                       ? 'text-brand-teal dark:text-brand-teal-light'
                       : 'text-slate-400 hover:!text-[var(--color-text-primary)] dark:hover:text-white'
@@ -116,14 +116,14 @@ export default function Navbar() {
 
             <Link
               to="/login"
-              className="px-4 py-2 text-xs font-semibold uppercase tracking-wider text-brand-teal-light border border-brand-teal/30 rounded-full bg-brand-teal/5 hover:bg-brand-teal/10 hover:text-brand-teal-dark dark:hover:text-white transition-[color,background-color,border-color] duration-300 cursor-pointer"
+              className="px-4 py-2 text-xs font-semibold uppercase tracking-wider text-brand-teal-light border border-brand-teal/30 rounded-full bg-brand-teal/5 hover:bg-brand-teal/10 hover:text-brand-teal-dark dark:hover:text-white transition-[color,background-color,border-color] duration-300 cursor-pointer whitespace-nowrap"
             >
               {isLoggedIn ? 'Investor Portal' : 'Client Login'}
             </Link>
             {!isLoggedIn && (
               <Link
                 to="/contact"
-                className="inline-flex items-center gap-1 px-5 py-2 rounded-full bg-brand-teal text-white-forced hover:bg-brand-teal-light text-xs font-bold uppercase tracking-wider shadow-lg shadow-brand-teal/25 hover:-translate-y-0.5 transition-spring cursor-pointer"
+                className="inline-flex items-center gap-1 px-5 py-2 rounded-full bg-brand-teal text-white-forced hover:bg-brand-teal-light text-xs font-bold uppercase tracking-wider shadow-lg shadow-brand-teal/25 hover:-translate-y-0.5 transition-spring cursor-pointer whitespace-nowrap"
               >
                 Request Demo
                 <ArrowUpRight className="w-3.5 h-3.5" />
