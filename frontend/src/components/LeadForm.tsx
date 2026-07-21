@@ -109,7 +109,7 @@ export default function LeadForm({ onSuccess, onError }: LeadFormProps) {
       const response = await fetch(`${import.meta.env.VITE_STRAPI_API_URL}/api/leads`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData),
+        body: JSON.stringify({ data: formData }),
       });
 
       const data = await response.json();
