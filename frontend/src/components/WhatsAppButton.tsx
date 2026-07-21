@@ -8,7 +8,7 @@ import { motion } from 'motion/react';
 import { MessageSquareCode } from 'lucide-react';
 
 export default function WhatsAppButton() {
-  const whatsappNumber = '+1234567890'; // Representative business number
+  const whatsappNumber = '+919825020271'; // Representative business number
   const message = encodeURIComponent('Hello Trade 360, I am interested in learning more about your trading account visibility and client communication platform.');
   const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${message}`;
 
