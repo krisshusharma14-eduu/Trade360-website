@@ -17,7 +17,7 @@ module.exports = {
     try {
       await transporter.sendMail({
         from: process.env.SMTP_USER,
-        to: process.env.ADMIN_EMAIL,
+        to: process.env.trade360@zohomail.in,
         subject: 'New Lead - Trade 360 Website',
         text: `
 New lead received:
