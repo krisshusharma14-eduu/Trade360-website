@@ -491,7 +491,7 @@ export default function Login({ onAddToast }: LoginProps) {
                 <Link to="/mt5-account-visibility" className="hover:text-brand-teal transition-colors underline">
                   Account Visibility Settings
                 </Link>
-                <a href="mailto:support@trade360.in" className="hover:text-brand-teal transition-colors underline">
+                <a href="mailto:trade360@zohomail.in" className="hover:text-brand-teal transition-colors underline">
                   Contact Institutional Desk
                 </a>
               </div>
