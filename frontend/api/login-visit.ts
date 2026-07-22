@@ -4,15 +4,12 @@
  *
  * Vercel Serverless Function — handles POST /api/login-visit
  *
- * Called once whenever someone opens the /login (Client Login) page.
- * Sends a quick email notification so you know someone is checking it out.
+ * Called whenever someone opens the /login (Client Login) page.
+ * Sends a notification using Resend's HTTP email API.
  *
- * Uses the SAME Zoho environment variables as the leads function:
- *   ZOHO_SMTP_USER  -> trade360@zohomail.in
- *   ZOHO_SMTP_PASS  -> your Zoho app-specific password
+ * Required Vercel environment variable:
+ *   RESEND_API_KEY -> the API key from resend.com (starts with re_...)
  */
-
-import nodemailer from 'nodemailer';
 
 interface VercelRequest {
   method?: string;
@@ -30,11 +27,10 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   }
 
   try {
-    const smtpUser = process.env.ZOHO_SMTP_USER;
-    const smtpPass = process.env.ZOHO_SMTP_PASS;
+    const resendApiKey = process.env.RESEND_API_KEY;
 
-    if (!smtpUser || !smtpPass) {
-      console.error('Missing ZOHO_SMTP_USER / ZOHO_SMTP_PASS environment variables.');
+    if (!resendApiKey) {
+      console.error('Missing RESEND_API_KEY environment variable.');
       res.status(500).json({ error: 'Email delivery is not configured yet.' });
       return;
     }
@@ -43,30 +39,34 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     const userAgent = req.headers['user-agent'] || 'Unknown device';
     const time = new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' });
 
-    const transporter = nodemailer.createTransport({
-      host: 'smtp.zoho.in', // use smtp.zoho.com if your account region is global
-      port: 465,
-      secure: true,
-      auth: { user: smtpUser, pass: smtpPass },
-    });
-
-    await transporter.sendMail({
-      from: smtpUser,
-      to: smtpUser,
-      subject: 'Someone opened the Trade 360 Client Login page',
-      text: `
+    const emailResponse = await fetch('https://api.resend.com/emails', {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${resendApiKey}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        from: 'Trade360 Website <onboarding@resend.dev>',
+        to: 'trade360@zohomail.in',
+        subject: 'Someone opened the Trade 360 Client Login page',
+        text: `
 A visitor opened the Client Login page on your website.
 
 Time: ${time} (IST)
 IP: ${ip}
 Device/Browser: ${userAgent}
-      `.trim(),
+        `.trim(),
+      }),
     });
+
+    if (!emailResponse.ok) {
+      const errText = await emailResponse.text();
+      console.error('Resend API error:', errText);
+    }
 
     res.status(200).json({ success: true });
   } catch (err: any) {
     console.error('Failed to send login-visit notification:', err);
-    // Never block the visitor's page just because the email failed
     res.status(200).json({ success: false });
   }
 }
