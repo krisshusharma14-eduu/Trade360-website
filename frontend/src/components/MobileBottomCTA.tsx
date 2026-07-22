@@ -15,7 +15,7 @@ export default function MobileBottomCTA() {
     setIsLoggedIn(sessionStorage.getItem('trade360_investor_session') === 'active');
   }, [location]);
 
-  const whatsappNumber = '+1234567890';
+  const whatsappNumber = '+919825020271';
   const message = encodeURIComponent('Hello Trade 360, I am interested in learning more about your trading account visibility and client communication platform.');
   const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${message}`;
 

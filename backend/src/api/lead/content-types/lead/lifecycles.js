@@ -1,27 +1,18 @@
-const nodemailer = require('nodemailer');
+const { Resend } = require('resend');
+
+const resend = new Resend(process.env.RESEND_API_KEY);
 
 module.exports = {
   async afterCreate(event) {
     const { result } = event;
 
-    const transporter = nodemailer.createTransport({
-      host: process.env.SMTP_HOST,
-      port: process.env.SMTP_PORT,
-      secure: true,
-      auth: {
-        user: process.env.SMTP_USER,
-        pass: process.env.SMTP_PASS,
-      },
-    });
-
     try {
-      await transporter.sendMail({
-        from: process.env.SMTP_USER,
-        to: process.env.ADMIN_EMAIL,
+      await resend.emails.send({
+        from: 'Trade 360 <onboarding@resend.dev>',
+        to: process.env.LEAD_NOTIFICATION_EMAIL,
         subject: 'New Lead - Trade 360 Website',
         text: `
 New lead received:
-
 Name: ${result.fullname}
 Mobile: ${result.mobile}
 Email: ${result.email}

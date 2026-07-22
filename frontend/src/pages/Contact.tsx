@@ -12,7 +12,7 @@ interface ContactProps {
 }
 
 export default function Contact({ onAddToast }: ContactProps) {
-  const whatsappNumber = '+1234567890';
+  const whatsappNumber = '+919825020271';
   const message = encodeURIComponent('Hello Trade 360, I am interested in scheduling a customized platform consultation.');
   const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${message}`;
 
@@ -29,9 +29,9 @@ export default function Contact({ onAddToast }: ContactProps) {
     {
       icon: <Phone className="w-5 h-5 text-sky-400" />,
       title: 'Direct Corporate Call',
-      desc: 'Call our accounts desk (Monday - Friday, 9:00 - 18:00 GMT).',
-      actionText: '+1 (234) 567-890',
-      actionUrl: 'tel:+1234567890',
+      desc: 'Call our accounts desk (Monday - Friday, 9:00 - 18:00 IST).',
+      actionText: '+917727079410',
+      actionUrl: 'tel:+917727079410',
       target: '_self',
       bg: 'bg-sky-500/5 hover:bg-sky-500/10 border-sky-500/20'
     },
@@ -39,8 +39,8 @@ export default function Contact({ onAddToast }: ContactProps) {
       icon: <Mail className="w-5 h-5 text-indigo-400" />,
       title: 'Sales Email Ticketing',
       desc: 'Submit detailed compliance or pricing inquiries.',
-      actionText: 'sales@trade360portal.com',
-      actionUrl: 'mailto:sales@trade360portal.com',
+      actionText: 'trade360@zohomail.in',
+      actionUrl: 'mailto:trade360@zohomail.in',
       target: '_self',
       bg: 'bg-indigo-500/5 hover:bg-indigo-500/10 border-indigo-500/20'
     }

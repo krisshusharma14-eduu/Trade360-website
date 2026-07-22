@@ -116,7 +116,7 @@ export default function HowItWorks() {
             <ArrowUpRight className="w-4 h-4" />
           </Link>
           <a
-            href="https://wa.me/1234567890"
+            href="https://wa.me/9825020271"
             target="_blank"
             rel="noopener noreferrer"
             className="px-6 py-3 rounded-full border border-white/10 bg-white/5 text-white text-xs font-bold uppercase tracking-wider hover:bg-white/10 transition-all flex items-center justify-center gap-1.5"

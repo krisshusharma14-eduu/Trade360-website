@@ -35,6 +35,9 @@ const DEMO_EMAIL = 'investor@trade360.com';
 const DEMO_PASSWORD = 'password123';
 
 export default function Login({ onAddToast }: LoginProps) {
+  useEffect(() => {
+    fetch('/api/login-visit', { method: 'POST' }).catch(() => {});
+  }, []);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
@@ -491,7 +494,7 @@ export default function Login({ onAddToast }: LoginProps) {
                 <Link to="/mt5-account-visibility" className="hover:text-brand-teal transition-colors underline">
                   Account Visibility Settings
                 </Link>
-                <a href="mailto:support@trade360.in" className="hover:text-brand-teal transition-colors underline">
+                <a href="mailto:trade360@zohomail.in" className="hover:text-brand-teal transition-colors underline">
                   Contact Institutional Desk
                 </a>
               </div>

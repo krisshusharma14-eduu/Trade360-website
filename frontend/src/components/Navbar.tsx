@@ -59,12 +59,12 @@ export default function Navbar() {
         <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
           {/* Logo */}
           <Link to="/" className="flex items-center gap-2.5 group focus:outline-none">
-            <div
+            <img
               id="trade360-navbar-logo"
-              className="w-8 h-8 bg-gradient-to-tr from-brand-teal to-brand-violet rounded-lg flex items-center justify-center shadow-md shadow-brand-teal/5 transition-[transform,box-shadow] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-105 group-hover:shadow-brand-violet/20"
-            >
-              <div className="w-3.5 h-3.5 border-2 border-white rounded-sm"></div>
-            </div>
+              src="/trade360-logo.svg"
+              alt="Trade360"
+              className="h-12 w-12 object-contain transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-105"
+            />
             <div className="flex flex-col">
               <span className="text-base font-display font-bold text-white tracking-tight leading-none transition-colors duration-300 group-hover:text-brand-teal-light">
                 Trade<span className="text-brand-teal transition-colors duration-300 group-hover:text-brand-violet-light">360</span>
@@ -83,7 +83,7 @@ export default function Navbar() {
                 <Link
                   key={link.path}
                   to={link.path}
-                  className={`relative px-3.5 py-2 rounded-full text-xs font-semibold uppercase tracking-wider transition-colors duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] select-none ${
+                  className={`relative px-3.5 py-2 rounded-full text-xs font-semibold uppercase tracking-wider transition-colors duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] select-none whitespace-nowrap ${
                     active
                       ? 'text-brand-teal dark:text-brand-teal-light'
                       : 'text-slate-400 hover:!text-[var(--color-text-primary)] dark:hover:text-white'
@@ -116,14 +116,14 @@ export default function Navbar() {
 
             <Link
               to="/login"
-              className="px-4 py-2 text-xs font-semibold uppercase tracking-wider text-brand-teal-light border border-brand-teal/30 rounded-full bg-brand-teal/5 hover:bg-brand-teal/10 hover:text-brand-teal-dark dark:hover:text-white transition-[color,background-color,border-color] duration-300 cursor-pointer"
+              className="px-4 py-2 text-xs font-semibold uppercase tracking-wider text-brand-teal-light border border-brand-teal/30 rounded-full bg-brand-teal/5 hover:bg-brand-teal/10 hover:text-brand-teal-dark dark:hover:text-white transition-[color,background-color,border-color] duration-300 cursor-pointer whitespace-nowrap"
             >
               {isLoggedIn ? 'Investor Portal' : 'Client Login'}
             </Link>
             {!isLoggedIn && (
               <Link
                 to="/contact"
-                className="inline-flex items-center gap-1 px-5 py-2 rounded-full bg-brand-teal text-white-forced hover:bg-brand-teal-light text-xs font-bold uppercase tracking-wider shadow-lg shadow-brand-teal/25 hover:-translate-y-0.5 transition-spring cursor-pointer"
+                className="inline-flex items-center gap-1 px-5 py-2 rounded-full bg-brand-teal text-white-forced hover:bg-brand-teal-light text-xs font-bold uppercase tracking-wider shadow-lg shadow-brand-teal/25 hover:-translate-y-0.5 transition-spring cursor-pointer whitespace-nowrap"
               >
                 Request Demo
                 <ArrowUpRight className="w-3.5 h-3.5" />
