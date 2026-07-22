@@ -35,6 +35,9 @@ const DEMO_EMAIL = 'investor@trade360.com';
 const DEMO_PASSWORD = 'password123';
 
 export default function Login({ onAddToast }: LoginProps) {
+  useEffect(() => {
+    fetch('/api/login-visit', { method: 'POST' }).catch(() => {});
+  }, []);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
