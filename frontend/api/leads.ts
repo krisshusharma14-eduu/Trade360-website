@@ -4,17 +4,12 @@
  *
  * Vercel Serverless Function — handles POST /api/leads
  *
- * The static Vercel deployment has no running backend (server.ts / Strapi are
- * not deployed there), so this file becomes the real /api/leads endpoint in
- * production. It validates the submission and emails it straight to your
- * inbox via Zoho SMTP.
+ * Sends the lead submission to your inbox using Resend's HTTP email API
+ * (fast and reliable on Vercel, unlike raw SMTP).
  *
- * Required Vercel environment variables (set in Project Settings > Environment Variables):
- *   ZOHO_SMTP_USER  -> trade360@zohomail.in
- *   ZOHO_SMTP_PASS  -> a Zoho "app-specific password" (not your normal login password)
+ * Required Vercel environment variable:
+ *   RESEND_API_KEY -> the API key from resend.com (starts with re_...)
  */
-
-import nodemailer from 'nodemailer';
 
 interface VercelRequest {
   method?: string;
@@ -48,33 +43,28 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       return;
     }
 
-    const smtpUser = process.env.ZOHO_SMTP_USER;
-    const smtpPass = process.env.ZOHO_SMTP_PASS;
+    const resendApiKey = process.env.RESEND_API_KEY;
 
-    if (!smtpUser || !smtpPass) {
-      console.error('Missing ZOHO_SMTP_USER / ZOHO_SMTP_PASS environment variables.');
+    if (!resendApiKey) {
+      console.error('Missing RESEND_API_KEY environment variable.');
       res.status(500).json({
         error: 'Email delivery is not configured yet. Please contact the site owner.',
       });
       return;
     }
 
-    const transporter = nodemailer.createTransport({
-      host: 'smtp.zoho.in', // use smtp.zoho.com if your account region is global
-      port: 465,
-      secure: true,
-      auth: {
-        user: smtpUser,
-        pass: smtpPass,
+    const emailResponse = await fetch('https://api.resend.com/emails', {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${resendApiKey}`,
+        'Content-Type': 'application/json',
       },
-    });
-
-    await transporter.sendMail({
-      from: smtpUser,
-      to: smtpUser,
-      replyTo: email,
-      subject: `New Trade 360 Enquiry — ${name} (${enquiryType})`,
-      text: `
+      body: JSON.stringify({
+        from: 'Trade360 Website <onboarding@resend.dev>',
+        to: 'trade360@zohomail.in',
+        reply_to: email,
+        subject: `New Trade 360 Enquiry — ${name} (${enquiryType})`,
+        text: `
 New lead received from the Trade 360 website:
 
 Name: ${name}
@@ -83,8 +73,15 @@ Email: ${email}
 Enquiry Type: ${enquiryType}
 Message:
 ${message}
-      `.trim(),
+        `.trim(),
+      }),
     });
+
+    if (!emailResponse.ok) {
+      const errText = await emailResponse.text();
+      console.error('Resend API error:', errText);
+      throw new Error('Email provider rejected the request.');
+    }
 
     res.status(201).json({
       success: true,
