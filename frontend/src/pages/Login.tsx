@@ -331,13 +331,6 @@ export default function Login({ onAddToast }: LoginProps) {
                   <RefreshCw className={`w-3.5 h-3.5 text-brand-teal ${isSyncing ? 'animate-spin' : ''}`} />
                   <span>Synced {syncTime}</span>
                 </button>
-                <button
-                  onClick={handleLogout}
-                  className="px-3.5 py-1.5 rounded-xl bg-rose-500/10 hover:bg-rose-500/20 border border-rose-500/10 hover:border-rose-500/20 text-rose-400 text-[11px] font-semibold transition-all flex items-center gap-1.5 cursor-pointer"
-                >
-                  <LogOut className="w-3.5 h-3.5" />
-                  <span>Log Out</span>
-                </button>
               </div>
             </div>
 
