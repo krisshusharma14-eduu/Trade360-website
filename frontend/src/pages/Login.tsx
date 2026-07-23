@@ -4,7 +4,7 @@
  */
 
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'motion/react';
 import { 
   Lock, 
@@ -35,6 +35,7 @@ const DEMO_EMAIL = 'investor@trade360.com';
 const DEMO_PASSWORD = 'password123';
 
 export default function Login({ onAddToast }: LoginProps) {
+  const navigate = useNavigate();
   useEffect(() => {
     fetch('/api/login-visit', { method: 'POST' }).catch(() => {});
   }, []);
@@ -117,6 +118,7 @@ export default function Login({ onAddToast }: LoginProps) {
     sessionStorage.removeItem('trade360_investor_session');
     window.dispatchEvent(new Event('session-update'));
     onAddToast('Session Terminated', 'Safely signed out of the secure portal.', 'info');
+    navigate('/');
   };
 
   const handleManualSync = () => {
