@@ -65,10 +65,10 @@ export default function Navbar() {
     { name: 'Dashboard', path: '/login' },
     { name: 'Reports', path: '/login#reports' },
     { name: 'Statements', path: '/login#statements' },
-    { name: 'Support', path: '/contact' },
-    { name: 'Account Settings', path: '/mt5-account-visibility' },
+    { name: 'Support', path: '/login#support' },
+    { name: 'Account Settings', path: '/login#settings' },
   ];
-
+  
   const navLinks = isLoggedIn ? loggedInNavLinks : publicNavLinks;
 
   const isActive = (path: string) => {
