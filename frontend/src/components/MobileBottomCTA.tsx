@@ -37,7 +37,7 @@ export default function MobileBottomCTA() {
       </a>
       <Link
         to="/contact"
-        className="flex-1.5 flex items-center justify-center gap-1.5 py-3 px-4 rounded-xl bg-brand-teal text-white-forced hover:bg-brand-teal-light font-bold text-sm transition-spring shadow-lg shadow-brand-teal/15"
+        className="flex-1 flex items-center justify-center gap-1.5 py-3 px-4 rounded-xl bg-brand-teal text-white-forced hover:bg-brand-teal-light font-bold text-sm transition-spring shadow-lg shadow-brand-teal/15"
       >
         Request Demo
         <ArrowUpRight className="w-4 h-4 text-white-forced" />
