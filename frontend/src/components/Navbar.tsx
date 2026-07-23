@@ -47,9 +47,7 @@ export default function Navbar() {
 
   const handleLogout = () => {
     sessionStorage.removeItem('trade360_investor_session');
-    setIsLoggedIn(false);
-    window.dispatchEvent(new Event('session-update'));
-    navigate('/login');
+    window.location.href = '/';
   };
 
   const publicNavLinks = [
