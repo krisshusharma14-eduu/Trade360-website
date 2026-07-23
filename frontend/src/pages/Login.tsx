@@ -584,49 +584,6 @@ export default function Login({ onAddToast }: LoginProps) {
                     )}
                   </button>
                 </form>
-                <div className="pt-4 border-t border-white/5 space-y-3">
-                  <h5 className="text-[10px] font-mono text-slate-400 uppercase tracking-wider">Need Help?</h5>
-
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                    <div className="bg-[#070d18] px-4 py-3 rounded-xl border border-white/5 flex items-center gap-3">
-                      <Mail className="w-4 h-4 text-brand-teal shrink-0" />
-                      <div>
-                        <span className="text-[9px] text-slate-500 block uppercase">Email Us</span>
-                        <a href="mailto:trade360@zohomail.in" className="text-xs text-white hover:text-brand-teal transition-colors">trade360@zohomail.in</a>
-                      </div>
-                    </div>
-                    <div className="bg-[#070d18] px-4 py-3 rounded-xl border border-white/5 flex items-center gap-3">
-                      <Phone className="w-4 h-4 text-brand-teal shrink-0" />
-                      <div>
-                        <span className="text-[9px] text-slate-500 block uppercase">Institutional Desk</span>
-                        <span className="text-xs text-white">Available Mon–Fri, 9AM–6PM IST</span>
-                      </div>
-                    </div>
-                  </div>
-
-                  <Link
-                    to="/faq"
-                    className="flex items-center justify-between bg-[#070d18] px-4 py-3 rounded-xl border border-white/5 hover:border-brand-teal/30 transition-colors group"
-                  >
-                    <span className="text-xs text-white flex items-center gap-2">
-                      <FileText className="w-4 h-4 text-brand-teal" />
-                      Browse Frequently Asked Questions
-                    </span>
-                    <ChevronRight className="w-4 h-4 text-slate-500 group-hover:text-brand-teal transition-colors" />
-                  </Link>
-
-                  <button
-                    type="button"
-                    onClick={() => onAddToast('Ticket System', 'Ticket tracking is coming soon. For now, use the message form above or email us directly.', 'info')}
-                    className="w-full flex items-center justify-between bg-[#070d18] px-4 py-3 rounded-xl border border-white/5 hover:border-brand-teal/30 transition-colors group cursor-pointer"
-                  >
-                    <span className="text-xs text-white flex items-center gap-2">
-                      <MessageSquare className="w-4 h-4 text-brand-teal" />
-                      Raise a Support Ticket
-                    </span>
-                    <span className="text-[9px] font-mono text-slate-500 uppercase tracking-wider">Coming Soon</span>
-                  </button>
-                </div>
               </div>
             )}
 
