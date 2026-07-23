@@ -27,7 +27,10 @@ import {
   AlertCircle,
   FileText,
   Mail,
-  Phone
+  Phone,
+  Settings,
+  MessageSquare,
+  Send
 } from 'lucide-react';
 
 interface LoginProps {
@@ -48,6 +51,8 @@ export default function Login({ onAddToast }: LoginProps) {
     location.hash === '#reports' ? 'reports' :
     location.hash === '#statements' ? 'statements' :
     location.hash === '#account' ? 'account' :
+    location.hash === '#support' ? 'support' :
+    location.hash === '#settings' ? 'settings' :
     'dashboard';
 
   const [email, setEmail] = useState('');
@@ -62,6 +67,18 @@ export default function Login({ onAddToast }: LoginProps) {
   const [syncTime, setSyncTime] = useState('12s ago');
   const [isSyncing, setIsSyncing] = useState(false);
   const [tradeSearch, setTradeSearch] = useState('');
+
+  // Support form state
+  const [supportName, setSupportName] = useState('');
+  const [supportEmail, setSupportEmail] = useState(DEMO_EMAIL);
+  const [supportMessage, setSupportMessage] = useState('');
+  const [isSubmittingSupport, setIsSubmittingSupport] = useState(false);
+
+  // Settings form state
+  const [notifyEmail, setNotifyEmail] = useState(true);
+  const [notifySms, setNotifySms] = useState(false);
+  const [newPassword, setNewPassword] = useState('');
+  const [isSavingSettings, setIsSavingSettings] = useState(false);
 
   // Check if session was already active (for persistent state)
   useEffect(() => {
@@ -140,6 +157,30 @@ export default function Login({ onAddToast }: LoginProps) {
       setSyncTime('Just now');
       onAddToast('Sync Complete', 'MT5 ticket registers mapped and verified.', 'success');
     }, 1500);
+  };
+
+  const handleSupportSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!supportMessage.trim()) {
+      onAddToast('Message Required', 'Please describe your issue before submitting.', 'error');
+      return;
+    }
+    setIsSubmittingSupport(true);
+    setTimeout(() => {
+      setIsSubmittingSupport(false);
+      setSupportMessage('');
+      onAddToast('Support Ticket Sent', 'Our institutional desk will respond within one business day.', 'success');
+    }, 1000);
+  };
+
+  const handleSettingsSave = (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSavingSettings(true);
+    setTimeout(() => {
+      setIsSavingSettings(false);
+      setNewPassword('');
+      onAddToast('Settings Updated', 'Your account preferences have been saved.', 'success');
+    }, 1000);
   };
 
   const sampleTrades = [
@@ -416,6 +457,133 @@ export default function Login({ onAddToast }: LoginProps) {
                     </div>
                   </div>
                 </div>
+              </div>
+            )}
+
+            {/* Support Tab */}
+            {activeTab === 'support' && (
+              <div className="bg-[#0b1222]/80 border border-white/5 rounded-2xl p-6 relative z-10 space-y-4 max-w-2xl mx-auto w-full">
+                <div className="flex items-center gap-2">
+                  <MessageSquare className="w-4.5 h-4.5 text-brand-teal" />
+                  <div>
+                    <h4 className="font-display font-bold text-sm text-white">Contact Institutional Desk</h4>
+                    <span className="text-[10px] font-mono text-slate-400">Response within one business day</span>
+                  </div>
+                </div>
+
+                <form onSubmit={handleSupportSubmit} className="space-y-3 text-left">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <div>
+                      <label className="block text-[10px] font-mono text-slate-400 uppercase tracking-wider mb-1.5">Full Name</label>
+                      <input
+                        type="text"
+                        value={supportName}
+                        onChange={(e) => setSupportName(e.target.value)}
+                        placeholder="Your name"
+                        className="w-full px-4 py-2.5 rounded-xl bg-[#090f1d]/80 border border-white/10 text-white placeholder-slate-600 text-xs focus:outline-none focus:border-brand-teal focus:ring-2 focus:ring-brand-teal/10 transition-all"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-[10px] font-mono text-slate-400 uppercase tracking-wider mb-1.5">Email</label>
+                      <input
+                        type="email"
+                        value={supportEmail}
+                        onChange={(e) => setSupportEmail(e.target.value)}
+                        className="w-full px-4 py-2.5 rounded-xl bg-[#090f1d]/80 border border-white/10 text-white placeholder-slate-600 text-xs focus:outline-none focus:border-brand-teal focus:ring-2 focus:ring-brand-teal/10 transition-all"
+                      />
+                    </div>
+                  </div>
+                  <div>
+                    <label className="block text-[10px] font-mono text-slate-400 uppercase tracking-wider mb-1.5">Message</label>
+                    <textarea
+                      value={supportMessage}
+                      onChange={(e) => setSupportMessage(e.target.value)}
+                      rows={4}
+                      placeholder="Describe your issue or request..."
+                      className="w-full px-4 py-2.5 rounded-xl bg-[#090f1d]/80 border border-white/10 text-white placeholder-slate-600 text-xs focus:outline-none focus:border-brand-teal focus:ring-2 focus:ring-brand-teal/10 transition-all resize-none"
+                    />
+                  </div>
+                  <button
+                    type="submit"
+                    disabled={isSubmittingSupport}
+                    className="w-full py-3 rounded-xl bg-brand-teal hover:bg-brand-teal-light text-[#08281F] font-bold text-xs uppercase tracking-wider transition-spring shadow-lg shadow-brand-teal/15 flex items-center justify-center gap-2 disabled:opacity-75 disabled:pointer-events-none hover:-translate-y-0.5 cursor-pointer"
+                  >
+                    {isSubmittingSupport ? (
+                      <>
+                        <RefreshCw className="w-4 h-4 animate-spin text-[#08281F]" />
+                        Sending...
+                      </>
+                    ) : (
+                      <>
+                        Send Message
+                        <Send className="w-3.5 h-3.5 text-[#08281F]" />
+                      </>
+                    )}
+                  </button>
+                </form>
+              </div>
+            )}
+
+            {/* Settings Tab */}
+            {activeTab === 'settings' && (
+              <div className="bg-[#0b1222]/80 border border-white/5 rounded-2xl p-6 relative z-10 space-y-4 max-w-2xl mx-auto w-full">
+                <div className="flex items-center gap-2">
+                  <Settings className="w-4.5 h-4.5 text-brand-teal" />
+                  <div>
+                    <h4 className="font-display font-bold text-sm text-white">Account Settings</h4>
+                    <span className="text-[10px] font-mono text-slate-400">Manage your portal preferences</span>
+                  </div>
+                </div>
+
+                <form onSubmit={handleSettingsSave} className="space-y-4 text-left">
+                  <div>
+                    <label className="block text-[10px] font-mono text-slate-400 uppercase tracking-wider mb-1.5">New Password</label>
+                    <input
+                      type="password"
+                      value={newPassword}
+                      onChange={(e) => setNewPassword(e.target.value)}
+                      placeholder="••••••••••••"
+                      className="w-full px-4 py-2.5 rounded-xl bg-[#090f1d]/80 border border-white/10 text-white placeholder-slate-600 text-xs focus:outline-none focus:border-brand-teal focus:ring-2 focus:ring-brand-teal/10 transition-all"
+                    />
+                  </div>
+
+                  <div className="space-y-2">
+                    <label className="block text-[10px] font-mono text-slate-400 uppercase tracking-wider mb-1.5">Notification Preferences</label>
+                    <label className="flex items-center gap-2.5 bg-[#070d18] px-4 py-2.5 rounded-xl border border-white/5 cursor-pointer">
+                      <input
+                        type="checkbox"
+                        checked={notifyEmail}
+                        onChange={(e) => setNotifyEmail(e.target.checked)}
+                        className="accent-brand-teal w-4 h-4"
+                      />
+                      <span className="text-xs text-white">Email notifications for new statements</span>
+                    </label>
+                    <label className="flex items-center gap-2.5 bg-[#070d18] px-4 py-2.5 rounded-xl border border-white/5 cursor-pointer">
+                      <input
+                        type="checkbox"
+                        checked={notifySms}
+                        onChange={(e) => setNotifySms(e.target.checked)}
+                        className="accent-brand-teal w-4 h-4"
+                      />
+                      <span className="text-xs text-white">SMS alerts for large equity changes</span>
+                    </label>
+                  </div>
+
+                  <button
+                    type="submit"
+                    disabled={isSavingSettings}
+                    className="w-full py-3 rounded-xl bg-brand-teal hover:bg-brand-teal-light text-[#08281F] font-bold text-xs uppercase tracking-wider transition-spring shadow-lg shadow-brand-teal/15 flex items-center justify-center gap-2 disabled:opacity-75 disabled:pointer-events-none hover:-translate-y-0.5 cursor-pointer"
+                  >
+                    {isSavingSettings ? (
+                      <>
+                        <RefreshCw className="w-4 h-4 animate-spin text-[#08281F]" />
+                        Saving...
+                      </>
+                    ) : (
+                      'Save Changes'
+                    )}
+                  </button>
+                </form>
               </div>
             )}
 
