@@ -100,6 +100,7 @@ export default function Login({ onAddToast }: LoginProps) {
       if (email.trim().toLowerCase() === DEMO_EMAIL && password === DEMO_PASSWORD) {
         setIsLoggedIn(true);
         sessionStorage.setItem('trade360_investor_session', 'active');
+        window.dispatchEvent(new Event('session-update'));  
         onAddToast('Portal Access Approved', 'Secure reporting session established.', 'success');
       } else {
         setErrorMsg('Authentication failed: Invalid credentials. Use the provided demo credentials below.');
@@ -114,6 +115,7 @@ export default function Login({ onAddToast }: LoginProps) {
     setEmail('');
     setPassword('');
     sessionStorage.removeItem('trade360_investor_session');
+    window.dispatchEvent(new Event('session-update'));
     onAddToast('Session Terminated', 'Safely signed out of the secure portal.', 'info');
   };
 
