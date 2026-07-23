@@ -4,8 +4,8 @@
  */
 
 import React, { useState, useEffect } from 'react';
-import { Link, useLocation } from 'react-router-dom';
-import { Menu, X, ArrowUpRight, ShieldCheck, Sun, Moon } from 'lucide-react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Menu, X, ArrowUpRight, ShieldCheck, Sun, Moon, LogOut, User } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { useTheme } from '../context/ThemeContext';
 
@@ -15,9 +15,21 @@ export default function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const location = useLocation();
+  const navigate = useNavigate();
 
   useEffect(() => {
-    setIsLoggedIn(sessionStorage.getItem('trade360_investor_session') === 'active');
+    const checkSession = () => {
+      setIsLoggedIn(sessionStorage.getItem('trade360_investor_session') === 'active');
+    };
+    checkSession();
+
+    window.addEventListener('storage', checkSession);
+    window.addEventListener('session-update', checkSession);
+
+    return () => {
+      window.removeEventListener('storage', checkSession);
+      window.removeEventListener('session-update', checkSession);
+    };
   }, [location]);
 
   useEffect(() => {
@@ -33,7 +45,14 @@ export default function Navbar() {
     setMobileMenuOpen(false);
   }, [location]);
 
-  const navLinks = [
+  const handleLogout = () => {
+    sessionStorage.removeItem('trade360_investor_session');
+    setIsLoggedIn(false);
+    window.dispatchEvent(new Event('session-update'));
+    navigate('/login');
+  };
+
+  const publicNavLinks = [
     { name: 'Services', path: '/services' },
     { name: 'MT5 Visibility', path: '/mt5-account-visibility' },
     { name: 'How It Works', path: '/how-it-works' },
@@ -44,7 +63,23 @@ export default function Navbar() {
     { name: 'About', path: '/about' },
   ];
 
-  const isActive = (path: string) => location.pathname === path;
+  const loggedInNavLinks = [
+    { name: 'Dashboard', path: '/login' },
+    { name: 'Reports', path: '/login#reports' },
+    { name: 'Statements', path: '/login#statements' },
+    { name: 'Support', path: '/contact' },
+    { name: 'Account Settings', path: '/mt5-account-visibility' },
+  ];
+
+  const navLinks = isLoggedIn ? loggedInNavLinks : publicNavLinks;
+
+  const isActive = (path: string) => {
+    if (path.includes('#')) {
+      const [basePath, hash] = path.split('#');
+      return location.pathname === basePath && location.hash === `#${hash}`;
+    }
+    return location.pathname === path && (!location.hash || path === '/login');
+  };
 
   return (
     <>
@@ -114,20 +149,39 @@ export default function Navbar() {
               {theme === 'dark' ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
             </button>
 
-            <Link
-              to="/login"
-              className="px-4 py-2 text-xs font-semibold uppercase tracking-wider text-brand-teal-light border border-brand-teal/30 rounded-full bg-brand-teal/5 hover:bg-brand-teal/10 hover:text-brand-teal-dark dark:hover:text-white transition-[color,background-color,border-color] duration-300 cursor-pointer whitespace-nowrap"
-            >
-              {isLoggedIn ? 'Investor Portal' : 'Client Login'}
-            </Link>
-            {!isLoggedIn && (
-              <Link
-                to="/contact"
-                className="inline-flex items-center gap-1 px-5 py-2 rounded-full bg-brand-teal text-white-forced hover:bg-brand-teal-light text-xs font-bold uppercase tracking-wider shadow-lg shadow-brand-teal/25 hover:-translate-y-0.5 transition-spring cursor-pointer whitespace-nowrap"
-              >
-                Request Demo
-                <ArrowUpRight className="w-3.5 h-3.5" />
-              </Link>
+            {isLoggedIn ? (
+              <>
+                <Link
+                  to="/login"
+                  className="inline-flex items-center gap-1.5 px-4 py-2 text-xs font-semibold uppercase tracking-wider text-brand-teal-light border border-brand-teal/30 rounded-full bg-brand-teal/5 hover:bg-brand-teal/10 transition-all duration-300 cursor-pointer whitespace-nowrap"
+                >
+                  <User className="w-3.5 h-3.5 text-brand-teal" />
+                  My Account
+                </Link>
+                <button
+                  onClick={handleLogout}
+                  className="inline-flex items-center gap-1.5 px-4 py-2 text-xs font-bold uppercase tracking-wider text-rose-400 border border-rose-500/20 rounded-full bg-rose-500/10 hover:bg-rose-500/20 hover:border-rose-500/40 transition-all duration-300 cursor-pointer whitespace-nowrap"
+                >
+                  <LogOut className="w-3.5 h-3.5" />
+                  Logout
+                </button>
+              </>
+            ) : (
+              <>
+                <Link
+                  to="/login"
+                  className="px-4 py-2 text-xs font-semibold uppercase tracking-wider text-brand-teal-light border border-brand-teal/30 rounded-full bg-brand-teal/5 hover:bg-brand-teal/10 hover:text-brand-teal-dark dark:hover:text-white transition-[color,background-color,border-color] duration-300 cursor-pointer whitespace-nowrap"
+                >
+                  Client Login
+                </Link>
+                <Link
+                  to="/contact"
+                  className="inline-flex items-center gap-1 px-5 py-2 rounded-full bg-brand-teal text-white-forced hover:bg-brand-teal-light text-xs font-bold uppercase tracking-wider shadow-lg shadow-brand-teal/25 hover:-translate-y-0.5 transition-spring cursor-pointer whitespace-nowrap"
+                >
+                  Request Demo
+                  <ArrowUpRight className="w-3.5 h-3.5" />
+                </Link>
+              </>
             )}
           </div>
 
@@ -176,20 +230,39 @@ export default function Navbar() {
                 </Link>
               ))}
               <div className="border-t border-white/5 my-4 pt-4 flex flex-col gap-3">
-                <Link
-                  to="/login"
-                  className="flex items-center justify-center py-3 rounded-xl border border-brand-teal/30 text-xs font-semibold uppercase tracking-wider text-brand-teal-light bg-brand-teal/5 hover:bg-black/5 dark:hover:bg-white/5 hover:text-brand-teal-dark dark:hover:text-white transition-colors duration-300"
-                >
-                  {isLoggedIn ? 'Investor Portal' : 'Client Login'}
-                </Link>
-                {!isLoggedIn && (
-                  <Link
-                    to="/contact"
-                    className="flex items-center justify-center gap-1.5 py-3 rounded-xl bg-brand-teal text-white-forced text-xs font-bold uppercase tracking-wider shadow-lg shadow-brand-teal/20 hover:bg-brand-teal-light transition-[background-color,transform] duration-300 cursor-pointer"
-                  >
-                    Request Demo
-                    <ArrowUpRight className="w-3.5 h-3.5" />
-                  </Link>
+                {isLoggedIn ? (
+                  <>
+                    <Link
+                      to="/login"
+                      className="flex items-center justify-center gap-1.5 py-3 rounded-xl border border-brand-teal/30 text-xs font-bold uppercase tracking-wider text-brand-teal bg-brand-teal/5 transition-colors duration-300"
+                    >
+                      <User className="w-4 h-4 text-brand-teal" />
+                      My Account
+                    </Link>
+                    <button
+                      onClick={handleLogout}
+                      className="flex items-center justify-center gap-1.5 py-3 rounded-xl border border-rose-500/20 text-xs font-bold uppercase tracking-wider text-rose-400 bg-rose-500/10 hover:bg-rose-500/20 transition-colors duration-300 cursor-pointer"
+                    >
+                      <LogOut className="w-4 h-4" />
+                      Logout
+                    </button>
+                  </>
+                ) : (
+                  <>
+                    <Link
+                      to="/login"
+                      className="flex items-center justify-center py-3 rounded-xl border border-brand-teal/30 text-xs font-semibold uppercase tracking-wider text-brand-teal-light bg-brand-teal/5 hover:bg-black/5 dark:hover:bg-white/5 hover:text-brand-teal-dark dark:hover:text-white transition-colors duration-300"
+                    >
+                      Client Login
+                    </Link>
+                    <Link
+                      to="/contact"
+                      className="flex items-center justify-center gap-1.5 py-3 rounded-xl bg-brand-teal text-white-forced text-xs font-bold uppercase tracking-wider shadow-lg shadow-brand-teal/20 hover:bg-brand-teal-light transition-[background-color,transform] duration-300 cursor-pointer"
+                    >
+                      Request Demo
+                      <ArrowUpRight className="w-3.5 h-3.5" />
+                    </Link>
+                  </>
                 )}
               </div>
             </div>
