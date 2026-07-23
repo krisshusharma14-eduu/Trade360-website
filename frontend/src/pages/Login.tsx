@@ -4,7 +4,7 @@
  */
 
 import React, { useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'motion/react';
 import { 
   Lock, 
@@ -24,7 +24,10 @@ import {
   EyeOff, 
   ChevronRight,
   CheckCircle,
-  AlertCircle
+  AlertCircle,
+  FileText,
+  Mail,
+  Phone
 } from 'lucide-react';
 
 interface LoginProps {
@@ -35,10 +38,18 @@ const DEMO_EMAIL = 'investor@trade360.com';
 const DEMO_PASSWORD = 'password123';
 
 export default function Login({ onAddToast }: LoginProps) {
-  const navigate = useNavigate();
   useEffect(() => {
     fetch('/api/login-visit', { method: 'POST' }).catch(() => {});
   }, []);
+
+  const navigate = useNavigate();
+  const location = useLocation();
+  const activeTab =
+    location.hash === '#reports' ? 'reports' :
+    location.hash === '#statements' ? 'statements' :
+    location.hash === '#account' ? 'account' :
+    'dashboard';
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
@@ -66,7 +77,7 @@ export default function Login({ onAddToast }: LoginProps) {
 
     const interval = setInterval(() => {
       setLiveEquity((prev) => {
-        const change = (Math.random() * 5000 - 1500); // fluctuate in Indian Rupee scale
+        const change = (Math.random() * 5000 - 1500);
         return Math.round((prev + change) * 100) / 100;
       });
       setSyncTime('Just now');
@@ -96,12 +107,11 @@ export default function Login({ onAddToast }: LoginProps) {
 
     setIsLoading(true);
 
-    // Simulate compliance authentication delay
     setTimeout(() => {
       if (email.trim().toLowerCase() === DEMO_EMAIL && password === DEMO_PASSWORD) {
         setIsLoggedIn(true);
         sessionStorage.setItem('trade360_investor_session', 'active');
-        window.dispatchEvent(new Event('session-update'));  
+        window.dispatchEvent(new Event('session-update'));
         onAddToast('Portal Access Approved', 'Secure reporting session established.', 'success');
       } else {
         setErrorMsg('Authentication failed: Invalid credentials. Use the provided demo credentials below.');
@@ -153,7 +163,6 @@ export default function Login({ onAddToast }: LoginProps) {
 
   return (
     <div className="pt-28 pb-20 min-h-screen px-4 md:px-6 relative overflow-hidden flex items-center justify-center">
-      {/* Background blurs */}
       <div className="absolute top-1/4 left-1/3 w-80 h-80 bg-brand-teal/3 rounded-full blur-[100px] pointer-events-none animate-drift" />
       <div className="absolute bottom-1/4 right-1/3 w-80 h-80 bg-brand-violet/3 rounded-full blur-[100px] pointer-events-none animate-drift-reverse" />
 
@@ -167,7 +176,6 @@ export default function Login({ onAddToast }: LoginProps) {
             transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
             className="w-full max-w-lg bg-brand-navy-light/60 border border-white/5 rounded-[2.5rem] shadow-2xl p-6 md:p-10 space-y-6 text-center relative overflow-hidden backdrop-blur-md"
           >
-            {/* Card decoration blurs */}
             <div className="absolute -top-12 -right-12 w-36 h-36 bg-brand-teal/5 rounded-full blur-2xl pointer-events-none" />
             <div className="absolute -bottom-12 -left-12 w-36 h-36 bg-brand-violet/5 rounded-full blur-2xl pointer-events-none" />
 
@@ -188,7 +196,6 @@ export default function Login({ onAddToast }: LoginProps) {
               </p>
             </div>
 
-            {/* Demo Credentials Box */}
             <div className="bg-[#0c1424] border border-brand-teal/20 rounded-2xl p-4 text-left relative z-10 space-y-2">
               <div className="flex items-center justify-between">
                 <span className="text-[10px] font-mono font-bold text-brand-teal uppercase tracking-wider flex items-center gap-1">
@@ -222,7 +229,6 @@ export default function Login({ onAddToast }: LoginProps) {
               </div>
             )}
 
-            {/* Interactive Form */}
             <form onSubmit={handleLoginSubmit} className="space-y-4 text-left relative z-10">
               <div>
                 <label className="block text-[10px] font-mono text-slate-400 uppercase tracking-wider mb-1.5">
@@ -277,7 +283,6 @@ export default function Login({ onAddToast }: LoginProps) {
               </button>
             </form>
 
-            {/* Footer security badge */}
             <div className="pt-4 border-t border-white/5 flex flex-col sm:flex-row items-center justify-between gap-3 text-[10px] text-slate-500 font-mono font-medium relative z-10">
               <div className="flex items-center gap-1.5">
                 <ShieldCheck className="w-4 h-4 text-brand-teal" />
@@ -297,7 +302,6 @@ export default function Login({ onAddToast }: LoginProps) {
             transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
             className="w-full max-w-6xl bg-[#131b2e]/70 border border-white/5 rounded-[2.5rem] shadow-2xl p-6 md:p-8 space-y-6 relative overflow-hidden backdrop-blur-md"
           >
-            {/* Dashboard decorative patterns */}
             <div className="absolute top-0 right-0 w-96 h-96 bg-brand-teal/2 rounded-full blur-[120px] pointer-events-none" />
             <div className="absolute bottom-0 left-0 w-96 h-96 bg-brand-violet/2 rounded-full blur-[120px] pointer-events-none" />
 
@@ -352,134 +356,197 @@ export default function Login({ onAddToast }: LoginProps) {
               </div>
             </div>
 
-            {/* Portfolio Statistics Grid */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 relative z-10">
-              {[
-                { 
-                  label: 'Initial Capital', 
-                  val: `₹${startingBalance.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`, 
-                  sub: 'Starting Deposit',
-                  icon: Landmark,
-                  color: 'text-white'
-                },
-                { 
-                  label: 'Current Net Equity', 
-                  val: `₹${liveEquity.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`, 
-                  sub: 'Floating Ledger Total',
-                  icon: Coins,
-                  color: 'text-brand-teal text-glow-green-sm',
-                  pulse: true
-                },
-                { 
-                  label: 'Free Margin Cap', 
-                  val: '1,245.82%', 
-                  sub: 'Risk Safety Cushion',
-                  icon: Activity,
-                  color: 'text-white'
-                },
-                { 
-                  label: 'Net Profit performance', 
-                  val: `${netProfit >= 0 ? '+' : ''}₹${netProfit.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`, 
-                  sub: 'Total Profit / Loss',
-                  icon: TrendingUp,
-                  color: netProfit >= 0 ? 'text-emerald-400' : 'text-rose-400'
-                },
-              ].map((metric, idx) => {
-                const IconComp = metric.icon;
-                return (
-                  <div key={idx} className="bg-[#0b1222]/80 border border-white/5 rounded-2xl p-5 relative overflow-hidden group hover:border-white/10 transition-colors">
-                    {/* Tiny visual pulse for active equity ticker */}
-                    {metric.pulse && (
-                      <span className="absolute top-4 right-4 flex h-2 w-2">
-                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-teal opacity-75"></span>
-                        <span className="relative inline-flex rounded-full h-2 w-2 bg-brand-teal"></span>
-                      </span>
-                    )}
+            {/* Reports Tab */}
+            {activeTab === 'reports' && (
+              <div className="bg-[#0b1222]/80 border border-white/5 rounded-2xl p-8 text-center relative z-10 space-y-3">
+                <div className="w-12 h-12 rounded-xl bg-brand-teal/10 flex items-center justify-center mx-auto text-brand-teal">
+                  <FileText className="w-5 h-5" />
+                </div>
+                <h4 className="font-display font-bold text-sm text-white">Performance Reports</h4>
+                <p className="text-xs text-slate-400 max-w-md mx-auto leading-relaxed">
+                  Detailed monthly performance reports are compiled from your mirrored trading activity. Your next report will be available at the start of the next reporting cycle.
+                </p>
+              </div>
+            )}
+
+            {/* Statements Tab */}
+            {activeTab === 'statements' && (
+              <div className="bg-[#0b1222]/80 border border-white/5 rounded-2xl p-8 text-center relative z-10 space-y-3">
+                <div className="w-12 h-12 rounded-xl bg-brand-teal/10 flex items-center justify-center mx-auto text-brand-teal">
+                  <Table className="w-5 h-5" />
+                </div>
+                <h4 className="font-display font-bold text-sm text-white">Account Statements</h4>
+                <p className="text-xs text-slate-400 max-w-md mx-auto leading-relaxed">
+                  Account statements reflect your closed transaction history. Downloadable PDF statements will be available in a future release — for now, view your closed trades on the Dashboard tab.
+                </p>
+              </div>
+            )}
+
+            {/* My Account Tab */}
+            {activeTab === 'account' && (
+              <div className="bg-[#0b1222]/80 border border-white/5 rounded-2xl p-6 relative z-10 space-y-4">
+                <h4 className="font-display font-bold text-sm text-white mb-2">Account Information</h4>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <div className="bg-[#070d18] px-4 py-3 rounded-xl border border-white/5 flex items-center gap-3">
+                    <Mail className="w-4 h-4 text-brand-teal shrink-0" />
+                    <div>
+                      <span className="text-[9px] text-slate-500 block uppercase">Registered Email</span>
+                      <span className="text-xs text-white">{DEMO_EMAIL}</span>
+                    </div>
+                  </div>
+                  <div className="bg-[#070d18] px-4 py-3 rounded-xl border border-white/5 flex items-center gap-3">
+                    <Landmark className="w-4 h-4 text-brand-teal shrink-0" />
+                    <div>
+                      <span className="text-[9px] text-slate-500 block uppercase">Linked Fund</span>
+                      <span className="text-xs text-white">Mercer Alpha Fund #1</span>
+                    </div>
+                  </div>
+                  <div className="bg-[#070d18] px-4 py-3 rounded-xl border border-white/5 flex items-center gap-3">
+                    <UserCheck className="w-4 h-4 text-brand-teal shrink-0" />
+                    <div>
+                      <span className="text-[9px] text-slate-500 block uppercase">MT5 Account ID</span>
+                      <span className="text-xs text-white">MT5-902845</span>
+                    </div>
+                  </div>
+                  <div className="bg-[#070d18] px-4 py-3 rounded-xl border border-white/5 flex items-center gap-3">
+                    <Phone className="w-4 h-4 text-brand-teal shrink-0" />
+                    <div>
+                      <span className="text-[9px] text-slate-500 block uppercase">Support Contact</span>
+                      <a href="mailto:trade360@zohomail.in" className="text-xs text-white hover:text-brand-teal transition-colors">trade360@zohomail.in</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* Dashboard Tab (default) */}
+            {activeTab === 'dashboard' && (
+              <>
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 relative z-10">
+                  {[
+                    { 
+                      label: 'Initial Capital', 
+                      val: `₹${startingBalance.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`, 
+                      sub: 'Starting Deposit',
+                      icon: Landmark,
+                      color: 'text-white'
+                    },
+                    { 
+                      label: 'Current Net Equity', 
+                      val: `₹${liveEquity.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`, 
+                      sub: 'Floating Ledger Total',
+                      icon: Coins,
+                      color: 'text-brand-teal text-glow-green-sm',
+                      pulse: true
+                    },
+                    { 
+                      label: 'Free Margin Cap', 
+                      val: '1,245.82%', 
+                      sub: 'Risk Safety Cushion',
+                      icon: Activity,
+                      color: 'text-white'
+                    },
+                    { 
+                      label: 'Net Profit performance', 
+                      val: `${netProfit >= 0 ? '+' : ''}₹${netProfit.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`, 
+                      sub: 'Total Profit / Loss',
+                      icon: TrendingUp,
+                      color: netProfit >= 0 ? 'text-emerald-400' : 'text-rose-400'
+                    },
+                  ].map((metric, idx) => {
+                    const IconComp = metric.icon;
+                    return (
+                      <div key={idx} className="bg-[#0b1222]/80 border border-white/5 rounded-2xl p-5 relative overflow-hidden group hover:border-white/10 transition-colors">
+                        {metric.pulse && (
+                          <span className="absolute top-4 right-4 flex h-2 w-2">
+                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-teal opacity-75"></span>
+                            <span className="relative inline-flex rounded-full h-2 w-2 bg-brand-teal"></span>
+                          </span>
+                        )}
+                        <div className="flex items-center gap-2">
+                          <IconComp className="w-3.5 h-3.5 text-slate-500" />
+                          <span className="text-[10px] font-mono text-slate-400 uppercase tracking-wider">{metric.label}</span>
+                        </div>
+                        <div className={`text-2xl font-display font-bold mt-2.5 tracking-tight ${metric.color}`}>
+                          {metric.val}
+                        </div>
+                        <span className="text-[10px] text-slate-500 font-medium mt-1 block">{metric.sub}</span>
+                      </div>
+                    );
+                  })}
+                </div>
+
+                <div className="bg-[#0b1222]/80 border border-white/5 rounded-2xl p-5 md:p-6 space-y-4 relative z-10">
+                  <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
                     <div className="flex items-center gap-2">
-                      <IconComp className="w-3.5 h-3.5 text-slate-500" />
-                      <span className="text-[10px] font-mono text-slate-400 uppercase tracking-wider">{metric.label}</span>
+                      <Table className="w-4.5 h-4.5 text-brand-teal" />
+                      <div>
+                        <h4 className="font-display font-bold text-sm text-white">Closed Transaction Registers</h4>
+                        <span className="text-[10px] font-mono text-slate-400">Mirroring standard MT5 ticket allocation blocks</span>
+                      </div>
                     </div>
-                    <div className={`text-2xl font-display font-bold mt-2.5 tracking-tight ${metric.color}`}>
-                      {metric.val}
+
+                    <div className="relative w-full sm:w-64">
+                      <Search className="w-4 h-4 text-slate-500 absolute left-3.5 top-1/2 -translate-y-1/2" />
+                      <input
+                        type="text"
+                        placeholder="Search by Symbol or Ticket..."
+                        value={tradeSearch}
+                        onChange={(e) => setTradeSearch(e.target.value)}
+                        className="w-full pl-9 pr-4 py-2 bg-[#121b2d]/90 border border-white/5 text-xs text-white placeholder-slate-500 rounded-xl focus:outline-none focus:border-brand-teal transition-all"
+                      />
                     </div>
-                    <span className="text-[10px] text-slate-500 font-medium mt-1 block">{metric.sub}</span>
                   </div>
-                );
-              })}
-            </div>
 
-            {/* Dynamic Interactive Closed Trades Registry */}
-            <div className="bg-[#0b1222]/80 border border-white/5 rounded-2xl p-5 md:p-6 space-y-4 relative z-10">
-              <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-                <div className="flex items-center gap-2">
-                  <Table className="w-4.5 h-4.5 text-brand-teal" />
-                  <div>
-                    <h4 className="font-display font-bold text-sm text-white">Closed Transaction Registers</h4>
-                    <span className="text-[10px] font-mono text-slate-400">Mirroring standard MT5 ticket allocation blocks</span>
-                  </div>
-                </div>
-
-                {/* Filter / Search Bar */}
-                <div className="relative w-full sm:w-64">
-                  <Search className="w-4 h-4 text-slate-500 absolute left-3.5 top-1/2 -translate-y-1/2" />
-                  <input
-                    type="text"
-                    placeholder="Search by Symbol or Ticket..."
-                    value={tradeSearch}
-                    onChange={(e) => setTradeSearch(e.target.value)}
-                    className="w-full pl-9 pr-4 py-2 bg-[#121b2d]/90 border border-white/5 text-xs text-white placeholder-slate-500 rounded-xl focus:outline-none focus:border-brand-teal transition-all"
-                  />
-                </div>
-              </div>
-
-              {/* Responsive Table Grid */}
-              <div className="overflow-x-auto">
-                <table className="w-full text-left text-xs min-w-[600px]">
-                  <thead>
-                    <tr className="border-b border-white/5 text-slate-400 font-mono text-[9px] uppercase tracking-widest">
-                      <th className="pb-3">Ticket</th>
-                      <th className="pb-3">Timestamp</th>
-                      <th className="pb-3">Contract Asset</th>
-                      <th className="pb-3">Direction</th>
-                      <th className="pb-3">Volume (Lots)</th>
-                      <th className="pb-3">Execution Price</th>
-                      <th className="pb-3">Terminal Close</th>
-                      <th className="pb-3 text-right">Net Profit</th>
-                    </tr>
-                  </thead>
-                  <tbody className="divide-y divide-white/5 font-mono text-[11px] text-slate-300">
-                    {filteredTrades.length === 0 ? (
-                      <tr>
-                        <td colSpan={8} className="py-8 text-center text-slate-500 font-sans text-xs">
-                          No ticket records matched your current query filter.
-                        </td>
-                      </tr>
-                    ) : (
-                      filteredTrades.map((t, idx) => (
-                        <tr key={idx} className="hover:bg-white/5 transition-colors">
-                          <td className="py-3 text-slate-400">#{t.ticket}</td>
-                          <td className="py-3 text-slate-500 text-[10px]">{t.time}</td>
-                          <td className="py-3 font-bold text-white">{t.symbol}</td>
-                          <td className="py-3">
-                            <span className={`px-1.5 py-0.5 rounded text-[9px] font-bold tracking-wider ${
-                              t.type === 'BUY' ? 'bg-emerald-500/10 text-emerald-400' : 'bg-rose-500/10 text-rose-400'
-                            }`}>{t.type}</span>
-                          </td>
-                          <td className="py-3">{t.volume}</td>
-                          <td className="py-3">{t.openPrice}</td>
-                          <td className="py-3">{t.closePrice}</td>
-                          <td className={`py-3 text-right font-semibold ${
-                            t.profit >= 0 ? 'text-emerald-400' : 'text-rose-400'
-                          }`}>
-                            {t.profit >= 0 ? '+' : ''}₹{t.profit.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
-                          </td>
+                  <div className="overflow-x-auto">
+                    <table className="w-full text-left text-xs min-w-[600px]">
+                      <thead>
+                        <tr className="border-b border-white/5 text-slate-400 font-mono text-[9px] uppercase tracking-widest">
+                          <th className="pb-3">Ticket</th>
+                          <th className="pb-3">Timestamp</th>
+                          <th className="pb-3">Contract Asset</th>
+                          <th className="pb-3">Direction</th>
+                          <th className="pb-3">Volume (Lots)</th>
+                          <th className="pb-3">Execution Price</th>
+                          <th className="pb-3">Terminal Close</th>
+                          <th className="pb-3 text-right">Net Profit</th>
                         </tr>
-                      ))
-                    )}
-                  </tbody>
-                </table>
-              </div>
-            </div>
+                      </thead>
+                      <tbody className="divide-y divide-white/5 font-mono text-[11px] text-slate-300">
+                        {filteredTrades.length === 0 ? (
+                          <tr>
+                            <td colSpan={8} className="py-8 text-center text-slate-500 font-sans text-xs">
+                              No ticket records matched your current query filter.
+                            </td>
+                          </tr>
+                        ) : (
+                          filteredTrades.map((t, idx) => (
+                            <tr key={idx} className="hover:bg-white/5 transition-colors">
+                              <td className="py-3 text-slate-400">#{t.ticket}</td>
+                              <td className="py-3 text-slate-500 text-[10px]">{t.time}</td>
+                              <td className="py-3 font-bold text-white">{t.symbol}</td>
+                              <td className="py-3">
+                                <span className={`px-1.5 py-0.5 rounded text-[9px] font-bold tracking-wider ${
+                                  t.type === 'BUY' ? 'bg-emerald-500/10 text-emerald-400' : 'bg-rose-500/10 text-rose-400'
+                                }`}>{t.type}</span>
+                              </td>
+                              <td className="py-3">{t.volume}</td>
+                              <td className="py-3">{t.openPrice}</td>
+                              <td className="py-3">{t.closePrice}</td>
+                              <td className={`py-3 text-right font-semibold ${
+                                t.profit >= 0 ? 'text-emerald-400' : 'text-rose-400'
+                              }`}>
+                                {t.profit >= 0 ? '+' : ''}₹{t.profit.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                              </td>
+                            </tr>
+                          ))
+                        )}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </>
+            )}
 
             {/* Quick help notice and navigation */}
             <div className="pt-4 border-t border-white/5 flex flex-col sm:flex-row items-center justify-between gap-4 text-[10px] font-mono text-slate-500 relative z-10">
