@@ -150,7 +150,7 @@ export default function Navbar() {
             {isLoggedIn ? (
               <>
                 <Link
-                  to="/login"
+                  to="/login#account"
                   className="inline-flex items-center gap-1.5 px-4 py-2 text-xs font-semibold uppercase tracking-wider text-brand-teal-light border border-brand-teal/30 rounded-full bg-brand-teal/5 hover:bg-brand-teal/10 transition-all duration-300 cursor-pointer whitespace-nowrap"
                 >
                   <User className="w-3.5 h-3.5 text-brand-teal" />
@@ -167,7 +167,7 @@ export default function Navbar() {
             ) : (
               <>
                 <Link
-                  to="/login"
+                  to="/login#account"
                   className="px-4 py-2 text-xs font-semibold uppercase tracking-wider text-brand-teal-light border border-brand-teal/30 rounded-full bg-brand-teal/5 hover:bg-brand-teal/10 hover:text-brand-teal-dark dark:hover:text-white transition-[color,background-color,border-color] duration-300 cursor-pointer whitespace-nowrap"
                 >
                   Client Login
@@ -231,7 +231,7 @@ export default function Navbar() {
                 {isLoggedIn ? (
                   <>
                     <Link
-                      to="/login"
+                      to="/login#account"
                       className="flex items-center justify-center gap-1.5 py-3 rounded-xl border border-brand-teal/30 text-xs font-bold uppercase tracking-wider text-brand-teal bg-brand-teal/5 transition-colors duration-300"
                     >
                       <User className="w-4 h-4 text-brand-teal" />
@@ -248,7 +248,7 @@ export default function Navbar() {
                 ) : (
                   <>
                     <Link
-                      to="/login"
+                      to="/login#account"
                       className="flex items-center justify-center py-3 rounded-xl border border-brand-teal/30 text-xs font-semibold uppercase tracking-wider text-brand-teal-light bg-brand-teal/5 hover:bg-black/5 dark:hover:bg-white/5 hover:text-brand-teal-dark dark:hover:text-white transition-colors duration-300"
                     >
                       Client Login
